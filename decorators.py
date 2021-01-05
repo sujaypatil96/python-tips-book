@@ -1,3 +1,5 @@
+# everything in Python is an object
+
 def hi(name="sujay"):
     return "hi " + name
 
@@ -21,8 +23,10 @@ print(greet())
 #outputs: 'hi sujay'
 
 
-def hi2(name="sujay"):
-    print("now you are inside the hi2() function")
+# defining functions within functions
+
+def wrapper(name="sujay"):
+    print("now you are inside the wrapper() function")
 
     def greet():
         return "now you are in the greet() function"
@@ -32,23 +36,25 @@ def hi2(name="sujay"):
 
     print(greet())
     print(welcome())
-    print("now you are back in the hi2() function")
+    print("now you are back in the wrapper() function")
 
-hi2()
-#output:now you are inside the hi() function
+wrapper()
+#output:now you are inside the wrapper() function
 #       now you are in the greet() function
 #       now you are in the welcome() function
-#       now you are back in the hi() function
+#       now you are back in the wrapper() function
 
-# This shows that whenever you call hi(), greet() and welcome()
+# This shows that whenever you call wrapper(), greet() and welcome()
 # are also called. However the greet() and welcome() functions
-# are not available outside the hi() function e.g:
+# are not available outside the wrapper() function e.g:
 
 greet()
 #outputs: NameError: name 'greet' is not defined
 
 
-def hi3(name="sujay"):
+# returning functions from within functions
+
+def func_wrapper(name="sujay"):
     def greet():
         return "now you are in the greet() function"
 
@@ -60,7 +66,7 @@ def hi3(name="sujay"):
     else:
         return welcome
 
-a = hi3()
+a = func_wrapper()
 print(a)
 #outputs: <function greet at 0x7f2143c01500>
 
@@ -71,17 +77,21 @@ print(a())
 #outputs: now you are in the greet() function
 
 
-def hi4():
+# passing a function as an argument to another function
+
+def ret_hi():
     return "hi sujay!"
 
 def doSomethingBeforeHi(func):
-    print("I am doing some boring work before executing hi4()")
+    print("I am doing some boring work before executing ret_hi()")
     print(func())
 
-doSomethingBeforeHi(hi4)
-#outputs:I am doing some boring work before executing hi()
+doSomethingBeforeHi(ret_hi)
+#outputs:I am doing some boring work before executing ret_hi()
 #        hi sujay!
 
+
+# creating decorators without using '@' syntax
 
 def a_new_decorator(a_func):
 
@@ -108,6 +118,8 @@ a_function_requiring_decoration()
 #        I am the function which needs some decoration to remove my foul smell
 #        I am doing some boring work after executing a_func()
 
+
+# creating decorators using '@' syntax
 
 @a_new_decorator
 def a_function_requiring_decoration2():
